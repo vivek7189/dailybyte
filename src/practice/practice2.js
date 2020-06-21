@@ -1,6 +1,7 @@
-import { isPlaceholder } from "@babel/types";
+import { isPlaceholder, thisExpression } from "@babel/types";
 import { AvFastForward } from "material-ui/svg-icons";
 import map from "material-ui/svg-icons/maps/map";
+import star from "material-ui/svg-icons/toggle/star";
 
 function NodeBST(data) {
   this.data = data;
@@ -13,13 +14,12 @@ tree.root = new NodeBST(1);
 tree.root.left = new NodeBST(2);
 tree.root.right = new NodeBST(3);
 
-// tree.root.left.left = new NodeBST(4);
-// tree.root.left.right = new NodeBST(5);
+tree.root.left.left = new NodeBST(4);
+tree.root.left.right = new NodeBST(5);
 
-// tree.root.right.left = new NodeBST(6);
-// tree.root.right.right = new NodeBST(7);
-// tree.root.right.right.right = new NodeBST(7);
-// tree.root.right.right.right.right = new NodeBST(7);
+tree.root.right.left = new NodeBST(6);
+tree.root.right.right = new NodeBST(7);
+tree.root.right.right.right = new NodeBST(8);
 
 const findPathInBtreeofArray = (node, arr, index) => {
   if (node === null || arr.length === 0) {
@@ -735,3 +735,383 @@ const searchBoggleWithTrie = (mat, dict) => {
   console.log("trie", trie);
 };
 searchBoggleWithTrie(matrix4, dictionary3);
+
+let inorder = ["d", "b", "e", "a", "f", "c"];
+let preorder = ["a", "b", "d", "e", "c", "f"];
+
+const treeInorderPreorder = () => {};
+console.log("tree is", treeInorderPreorder());
+const inorderSuccesor = (node, data, pre) => {
+  if (node === null) {
+    return null;
+  }
+
+  inorderSuccesor(node.right, data, pre);
+  if (node.data === data) {
+    console.log("final pre", pre.data);
+  }
+  pre = node;
+  inorderSuccesor(node.left, data, pre);
+};
+inorderSuccesor(tree.root, 5, "");
+
+const preorderSuccesor = (node, data, pre) => {
+  if (node === null) {
+    return null;
+  }
+
+  if (node.data === data) {
+    console.log("final pre t", pre.data);
+  }
+  pre = node;
+  preorderSuccesor(node.right, data, pre);
+
+  preorderSuccesor(node.left, data, pre);
+};
+preorderSuccesor(tree.root, 5, "");
+
+let inorder1 = [4, 18, 2, 5, 10, 6, 3, 7];
+let postorder = [18, 4, 5, 2, 6, 7, 3, 10];
+let initialRootIndex = postorder.length - 1;
+let nodeInorder = new MakeBst().root;
+const treeFromPostOrderInorder = (ino, start, end, node) => {
+  if (start > end) {
+    return null;
+  }
+  node = new NodeBST(postorder[initialRootIndex]);
+
+  let getIndx = ino.indexOf(postorder[initialRootIndex]);
+  initialRootIndex--;
+  node.right = treeFromPostOrderInorder(ino, getIndx + 1, end, node);
+  node.left = treeFromPostOrderInorder(ino, start, getIndx - 1, node);
+
+  return node;
+};
+
+console.log(
+  "tree is kkk",
+  treeFromPostOrderInorder(inorder1, 0, inorder1.length - 1, nodeInorder)
+);
+
+let tree3 = new MakeBst();
+tree3.root = new NodeBST(50);
+tree3.root.left = new NodeBST(30);
+tree3.root.left.left = new NodeBST(20);
+tree3.root.left.right = new NodeBST(40);
+
+tree3.root.right = new NodeBST(70);
+tree3.root.right.left = new NodeBST(60);
+// tree3.root.right.left.left = new NodeBST(56);
+// tree3.root.right.left.right = new NodeBST(65);
+tree3.root.right.right = new NodeBST(80);
+
+let totalsum = 0;
+const addAllgreatsValuesTobst = node => {
+  if (node === null) {
+    return null;
+  }
+
+  let right = addAllgreatsValuesTobst(node.right);
+  totalsum = totalsum + node.data;
+  node.data = totalsum;
+  let left = addAllgreatsValuesTobst(node.left);
+};
+//addAllgreatsValuesTobst(tree3.root);
+//console.log("modified tree", tree3);
+let pre = 0;
+const transformBSTtoGreatersum = node => {
+  if (node === null) {
+    return null;
+  }
+
+  transformBSTtoGreatersum(node.right);
+  let nodeData = node.data;
+  node.data = pre;
+  pre = nodeData + pre;
+
+  transformBSTtoGreatersum(node.left);
+
+  //return pre;
+};
+console.log(tree3);
+//transformBSTtoGreatersum(tree3.root);
+
+console.log(tree3);
+
+function NodeBstC(data) {
+  this.data = data;
+  this.left = null;
+  this.right = null;
+  this.znext = null;
+}
+function BSTSpecial() {
+  this.root = null;
+}
+let connectTree = new BSTSpecial();
+connectTree.root = new NodeBstC(1);
+connectTree.root.left = new NodeBstC(2);
+connectTree.root.left.left = new NodeBstC(4);
+connectTree.root.left.right = new NodeBstC(5);
+
+connectTree.root.right = new NodeBstC(3);
+connectTree.root.right.left = new NodeBstC(6);
+connectTree.root.right.right = new NodeBstC(7);
+const connectNodeAtsameLevel = node => {
+  console.log("connect tree", node);
+  let queue = [];
+  queue.push(node);
+  while (queue.length > 0) {
+    let currentSize = queue.length;
+    let prev = null;
+    for (let i = 0; i < currentSize; i++) {
+      let pop = queue.shift();
+      if (i > 0) {
+        prev.znext = pop;
+      }
+      prev = pop;
+      if (pop.left) {
+        queue.push(pop.left);
+      }
+      if (pop.right) {
+        queue.push(pop.right);
+      }
+    }
+  }
+};
+//connectNodeAtsameLevel(connectTree.root);
+
+//console.log("modified connect tree", connectTree);
+const getNextRightNode = node => {
+  let temp = node.znext;
+  while (temp !== null) {
+    if (temp.left) {
+      return temp.left;
+    }
+    if (temp.right) {
+      return temp.right;
+    }
+    temp = temp.znext;
+  }
+
+  return null;
+};
+const connectNodeAtsameLevelIterative = nodeP => {
+  if (nodeP === null) {
+    return null;
+  }
+  nodeP.znext = null;
+  while (nodeP) {
+    let node = nodeP;
+    // here we traversing  at individual level....each node from left to right
+    while (node) {
+      if (node.left) {
+        if (node.right) {
+          node.left.znext = node.right;
+          //node.right.znext = getNextRightNode(node);
+        } else {
+          node.left.znext = getNextRightNode(node);
+        }
+      }
+      if (node.right) {
+        node.right.znext = getNextRightNode(node);
+      }
+      // here assigning next level node to current
+      node = node.znext;
+    }
+    // we we assing first node of next level to current node i.e nodeP
+    if (nodeP.left) {
+      nodeP = nodeP.left;
+    } else if (nodeP.right) {
+      nodeP = nodeP.right;
+    } else {
+      nodeP = getNextRightNode(nodeP);
+    }
+  }
+};
+connectNodeAtsameLevelIterative(connectTree.root);
+console.log("connectTree next", connectTree);
+
+const getLastLeft = (node, data) => {
+  let last;
+  while (node !== null && node.data !== data) {
+    if (node.data > data) {
+      last = node;
+      node = node.left;
+    }
+    if (node.data < data) {
+      node = node.right;
+    }
+  }
+  console.log("last node is", last);
+};
+
+const inorderSuccessorInBSt = (node, data) => {
+  if (node === null) {
+    return null;
+  }
+  // if found the node
+  if (node.data === data) {
+    if (node.right !== null) {
+      let right = node.right;
+      while (right && right.left !== null) {
+        right = right.left;
+      }
+      console.log("successor  is", right);
+    }
+    if (node.right === null) {
+      getLastLeft(tree3.root, data);
+    }
+  }
+  if (node.data > data) {
+    inorderSuccessorInBSt(node.left, data);
+  }
+  if (node.data < data) {
+    inorderSuccessorInBSt(node.right, data);
+  }
+};
+console.log("found the node", inorderSuccessorInBSt(tree3.root, 60));
+
+const stringInterLeavingDP = (str1, str2, str3) => {
+  let str1Len = str1.length;
+  let str2Len = str2.length;
+  let str3Len = str3.length;
+
+  if (str1Len + str2Len !== str3Len) {
+    return false;
+  }
+  let dp = [];
+
+  for (let i = 0; i <= str1Len; i++) {
+    dp[i] = [];
+    for (let j = 0; j <= str2Len; j++) {
+      dp[i][j] = 0;
+    }
+  }
+
+  // to fill first row
+  for (let i = 0; i < str2Len; i++) {
+    if (str2[i] === str3[i]) {
+      dp[0][i + 1] = "T";
+    } else {
+      dp[0][i + 1] = "F";
+    }
+  }
+
+  // to fill first col
+  for (let i = 0; i < str1Len; i++) {
+    if (str1[i] === str3[i]) {
+      dp[i + 1][0] = "T";
+    } else {
+      dp[i + 1][0] = "F";
+    }
+  }
+
+  for (let i = 1; i <= str1Len; i++) {
+    for (let j = 1; j <= str2Len; j++) {
+      // be carefulll to update str1 and str2 corresponding values
+      if (str1[i - 1] === str3[i + j - 1]) {
+        dp[i][j] = dp[i - 1][j];
+      } else if (str2[j - 1] === str3[i + j - 1]) {
+        dp[i][j] = dp[i][j - 1];
+      } else {
+        dp[i][j] = "F";
+      }
+    }
+  }
+
+  console.log("string interleaving DP", dp);
+};
+stringInterLeavingDP("XXYZ", "AACD", "AXXACYDZ");
+
+const isStrPalindrom = (i, j, str) => {
+  if (i === j) return true;
+  let isPalindrom = true;
+  while (i < j) {
+    if (str[i] !== str[j]) {
+      return (isPalindrom = false);
+    }
+    i++;
+    j--;
+  }
+  return isPalindrom;
+};
+
+const palindromMinPartitionDP = str => {
+  if (str === null || str === "") return false;
+  let strLen = str.length;
+  let dp = [];
+  for (let i = 0; i < strLen; i++) {
+    dp[i] = [];
+    for (let j = 0; j < strLen; j++) {
+      dp[i][j] = 0;
+    }
+  }
+
+  // traveser str to check palindrom
+  // and fill the table in bottom up mannner
+  for (let p = 2; p <= strLen; p++) {
+    for (let i = 0; i < strLen - p + 1; i++) {
+      // 12   23   34   45,    13  24   35,    14  25,     15,
+
+      let j = i + p - 1;
+      console.log("i", i, "j", j);
+      if (isStrPalindrom(i, j, str)) {
+        dp[i][j] = 0;
+      } else {
+        let minVal = 100;
+        for (let k = i; k <= j - 1; k++) {
+          minVal = Math.min(minVal, 1 + dp[i][k] + dp[k + 1][j]);
+        }
+        dp[i][j] = minVal;
+      }
+    }
+  }
+  console.log("palindrom dp", dp);
+};
+
+palindromMinPartitionDP("abcbm");
+
+let pathMatrix = [
+  [1, 2, 3],
+  [5, 3, 8],
+  [4, 6, 7]
+];
+
+const dfspathMatrix = (mat, i, j, row, col, visited) => {
+  debugger;
+  if (i < 0 || j < 0 || i > row || j > col || visited[i][j]) {
+    return false;
+  }
+  let len = 0;
+  visited[i][j] = 1;
+  if (Math.abs(mat[i][j] - mat[i][j + 1]) === 1) {
+    return (len = 1 + len + dfspathMatrix(mat, i, j + 1, row, col, visited));
+  }
+  if (Math.abs(mat[i][j] - mat[i + 1][j]) === 1) {
+    return (len = 1 + len + dfspathMatrix(mat, i + 1, j, row, col, visited));
+  }
+  visited[i][j] = 0;
+  console.log("visited", visited);
+  return len;
+};
+// max diff is 1 between element
+const findLongagestPathInMatrix = mat => {
+  if (mat === null || mat.length === 0) return 0;
+
+  let row = mat.length;
+  let col = mat[0].length;
+  for (let i = 0; i < row; i++) {
+    for (let j = 0; j < col; j++) {
+      let visited = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
+      ];
+      if (i === 0 && j === 0) {
+        console.log("len", dfspathMatrix(mat, i, j, row, col, visited));
+      }
+    }
+  }
+};
+
+findLongagestPathInMatrix(pathMatrix);
