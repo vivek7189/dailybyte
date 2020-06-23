@@ -1073,45 +1073,144 @@ palindromMinPartitionDP("abcbm");
 
 let pathMatrix = [
   [1, 2, 3],
-  [5, 3, 8],
-  [4, 6, 7]
+  [8, -1, 4],
+  [7, 6, 5]
 ];
 
-const dfspathMatrix = (mat, i, j, row, col, visited) => {
-  debugger;
-  if (i < 0 || j < 0 || i > row || j > col || visited[i][j]) {
+const isValidPath = (mat, i, j, row, col, dp) => {
+  // using visited as dp array
+  if (i >= 0 && i < row && j >= 0 && j < col && dp[i][j] === -1) {
+    return true;
+  } else {
     return false;
   }
+};
+const dfspathMatrix2 = (mat, i, j, row, col, dp) => {
   let len = 0;
-  visited[i][j] = 1;
-  if (Math.abs(mat[i][j] - mat[i][j + 1]) === 1) {
-    return (len = 1 + len + dfspathMatrix(mat, i, j + 1, row, col, visited));
+  dp[i][j] = pathMatIndex++;
+  if (isValidPath(mat, i, j + 1, row, col, dp) && mat[i][j] < mat[i][j + 1]) {
+    len = 1 + dfspathMatrix2(mat, i, j + 1, row, col, dp);
   }
-  if (Math.abs(mat[i][j] - mat[i + 1][j]) === 1) {
-    return (len = 1 + len + dfspathMatrix(mat, i + 1, j, row, col, visited));
+  if (isValidPath(mat, i + 1, j, row, col, dp) && mat[i][j] < mat[i + 1][j]) {
+    //dp[i][j] = pathMatIndex++;
+    len = 1 + dfspathMatrix2(mat, i + 1, j, row, col, dp);
   }
-  visited[i][j] = 0;
-  console.log("visited", visited);
+  if (isValidPath(mat, i, j - 1, row, col, dp) && mat[i][j] < mat[i][j - 1]) {
+    //dp[i][j] = pathMatIndex++;
+    len = 1 + dfspathMatrix2(mat, i, j - 1, row, col, dp);
+  }
+  if (isValidPath(mat, i - 1, j, row, col, dp) && mat[i][j] < mat[i - 1][j]) {
+    // dp[i][j] = pathMatIndex++;
+    len = 1 + dfspathMatrix2(mat, i - 1, j, row, col, dp);
+  }
+
   return len;
 };
+let pathMatIndex = 1;
 // max diff is 1 between element
 const findLongagestPathInMatrix = mat => {
   if (mat === null || mat.length === 0) return 0;
 
   let row = mat.length;
   let col = mat[0].length;
+  let result = 1;
   for (let i = 0; i < row; i++) {
     for (let j = 0; j < col; j++) {
-      let visited = [
-        [0, 0, 0],
-        [0, 0, 0],
-        [0, 0, 0]
-      ];
-      if (i === 0 && j === 0) {
-        console.log("len", dfspathMatrix(mat, i, j, row, col, visited));
+      {
+        // here is navie algorithm consider every cell each time with new dp array
+        // here Dp array is acting as visited array
+
+        let dp = [
+          [-1, -1, -1],
+          [-1, -1, -1],
+          [-1, -1, -1]
+        ];
+        result = dfspathMatrix2(mat, i, j, row, col, dp);
+        console.log("dp matrix is", dp, result);
       }
     }
   }
+
+  return result;
+};
+console.log("result is", findLongagestPathInMatrix(pathMatrix));
+
+/// if dont want to use visited array in finding longest path
+//then DP cache array will be used....and return the each computed value with max
+
+const isValidPath3 = (mat, i, j, row, col, dp) => {
+  if (i >= 0 && i < row && j >= 0 && j < col) {
+    return true;
+  } else {
+    return false;
+  }
+};
+const dfspathMatrix3 = (mat, i, j, row, col, dp) => {
+  debugger;
+  if (dp[i][j] !== -1) {
+    return dp[i][j];
+  }
+  let left = 0;
+  let right = 0;
+  let top = 0;
+  let down = 0;
+  if (isValidPath3(mat, i, j + 1, row, col, dp) && mat[i][j] < mat[i][j + 1]) {
+    left = 1 + dfspathMatrix3(mat, i, j + 1, row, col, dp);
+  }
+  if (isValidPath3(mat, i + 1, j, row, col, dp) && mat[i][j] < mat[i + 1][j]) {
+    right = 1 + dfspathMatrix3(mat, i + 1, j, row, col, dp);
+  }
+  // if (isValidPath3(mat, i, j - 1, row, col, dp) && mat[i][j] < mat[i][j - 1]) {
+  //   top = 1 + dfspathMatrix3(mat, i, j - 1, row, col, dp);
+  // }
+  // if (isValidPath3(mat, i - 1, j, row, col, dp) && mat[i][j] < mat[i - 1][j]) {
+  //   down = 1 + dfspathMatrix3(mat, i - 1, j, row, col, dp);
+  // }
+
+  // here dont think left rightactual right or lfet...think in reverse backtrac at single point
+  // here we reachin till we find our increaing elemnt then
+  // if above conditions are true then will come here
+  // here will count the max path of orign point(i,j)...and save it in dp[i][j]
+  // think about left right in revers poin...last stage...i.e    last point lfeft right all 0
+  // then back track to this below line
+  // and calcaute of max in all four or given direction...
+
+  // while backtracking it store the each individal max length of elemnt
+  // which later help to compute others
+  dp[i][j] = Math.max(left, Math.max(right, Math.max(top, down)));
+  return dp[i][j];
 };
 
-findLongagestPathInMatrix(pathMatrix);
+const findLongagestPathInMatrix3 = mat => {
+  if (mat === null || mat.length === 0) return 0;
+  let dp = [
+    [-1, -1, -1, -1],
+    [-1, -1, -1, -1],
+    [-1, -1, -1, -1],
+    [-1, -1, -1, -1]
+  ];
+  let row = mat.length;
+  let col = mat[0].length;
+  let result = 1;
+  for (let i = 0; i < row; i++) {
+    for (let j = 0; j < col; j++) {
+      debugger;
+      {
+        if (dp[i][j] === -1) {
+          let res = dfspathMatrix3(mat, i, j, row, col, dp);
+          console.log("dp matrix is", dp, res);
+          result = Math.max(result, res);
+        }
+      }
+    }
+  }
+
+  return result;
+};
+let pathMatrix3 = [
+  [1, 10, 11, 0],
+  [8, 7, 12, 5],
+  [7, 11, 13, 14],
+  [14, 10, 5, 15]
+];
+console.log("result is", findLongagestPathInMatrix3(pathMatrix3));
