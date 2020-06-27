@@ -2,7 +2,7 @@ import { isPlaceholder, thisExpression } from "@babel/types";
 import { AvFastForward } from "material-ui/svg-icons";
 import map from "material-ui/svg-icons/maps/map";
 import star from "material-ui/svg-icons/toggle/star";
-
+import "./practice3";
 function NodeBST(data) {
   this.data = data;
   this.left = null;
@@ -157,7 +157,7 @@ list.head.next.next = new ListNode(3);
 list.head.next.next.next = new ListNode(2);
 list.head.next.next.next.next = new ListNode(1);
 
-console.log("list is ", list);
+//console.log("list is ", list);
 let end;
 let start = list.head;
 const checkListPalindrom = node => {
@@ -569,7 +569,7 @@ const findWordsInboggle = (mat, dict) => {
     }
   }
 };
-findWordsInboggle(boggle, dictionary);
+//findWordsInboggle(boggle, dictionary);
 
 const test = index => {
   if (index === 1) {
@@ -581,7 +581,7 @@ const test = index => {
     }
   }
 };
-test(0);
+//test(0);
 
 let Boggle2 = [
   ["A", "B", "C", "D"],
@@ -705,19 +705,19 @@ Trie.prototype.search = function(str) {
   }
   return true;
 };
-let trie = new Trie();
-trie.insert("vifb");
-trie.insert("ka");
+//let trie = new Trie();
+//trie.insert("vifb");
+//trie.insert("ka");
 
-console.log("trie data", trie);
-console.log("word found", trie.search("vifb"), trie.search("ka"));
+//console.log("trie data", trie);
+//console.log("word found", trie.search("vifb"), trie.search("ka"));
 
 const iterateTheMap = node => {
   for (let [key, val] of node.data) {
     console.log("key", key, "val", val);
   }
 };
-iterateTheMap(trie.root);
+//iterateTheMap(trie.root);
 
 let dictionary3 = ["vivek", "tomy", "kumar", "malik"];
 let matrix4 = [
@@ -734,13 +734,13 @@ const searchBoggleWithTrie = (mat, dict) => {
   }
   console.log("trie", trie);
 };
-searchBoggleWithTrie(matrix4, dictionary3);
+//searchBoggleWithTrie(matrix4, dictionary3);
 
 let inorder = ["d", "b", "e", "a", "f", "c"];
 let preorder = ["a", "b", "d", "e", "c", "f"];
 
 const treeInorderPreorder = () => {};
-console.log("tree is", treeInorderPreorder());
+//console.log("tree is", treeInorderPreorder());
 const inorderSuccesor = (node, data, pre) => {
   if (node === null) {
     return null;
@@ -753,7 +753,7 @@ const inorderSuccesor = (node, data, pre) => {
   pre = node;
   inorderSuccesor(node.left, data, pre);
 };
-inorderSuccesor(tree.root, 5, "");
+//inorderSuccesor(tree.root, 5, "");
 
 const preorderSuccesor = (node, data, pre) => {
   if (node === null) {
@@ -768,7 +768,7 @@ const preorderSuccesor = (node, data, pre) => {
 
   preorderSuccesor(node.left, data, pre);
 };
-preorderSuccesor(tree.root, 5, "");
+//preorderSuccesor(tree.root, 5, "");
 
 let inorder1 = [4, 18, 2, 5, 10, 6, 3, 7];
 let postorder = [18, 4, 5, 2, 6, 7, 3, 10];
@@ -788,10 +788,10 @@ const treeFromPostOrderInorder = (ino, start, end, node) => {
   return node;
 };
 
-console.log(
-  "tree is kkk",
-  treeFromPostOrderInorder(inorder1, 0, inorder1.length - 1, nodeInorder)
-);
+// console.log(
+//   "tree is kkk",
+//   treeFromPostOrderInorder(inorder1, 0, inorder1.length - 1, nodeInorder)
+// );
 
 let tree3 = new MakeBst();
 tree3.root = new NodeBST(50);
@@ -833,10 +833,10 @@ const transformBSTtoGreatersum = node => {
 
   //return pre;
 };
-console.log(tree3);
+//console.log(tree3);
 //transformBSTtoGreatersum(tree3.root);
 
-console.log(tree3);
+//console.log(tree3);
 
 function NodeBstC(data) {
   this.data = data;
@@ -928,8 +928,8 @@ const connectNodeAtsameLevelIterative = nodeP => {
     }
   }
 };
-connectNodeAtsameLevelIterative(connectTree.root);
-console.log("connectTree next", connectTree);
+//connectNodeAtsameLevelIterative(connectTree.root);
+//console.log("connectTree next", connectTree);
 
 const getLastLeft = (node, data) => {
   let last;
@@ -969,7 +969,7 @@ const inorderSuccessorInBSt = (node, data) => {
     inorderSuccessorInBSt(node.right, data);
   }
 };
-console.log("found the node", inorderSuccessorInBSt(tree3.root, 60));
+//console.log("found the node", inorderSuccessorInBSt(tree3.root, 60));
 
 const stringInterLeavingDP = (str1, str2, str3) => {
   let str1Len = str1.length;
@@ -1021,7 +1021,7 @@ const stringInterLeavingDP = (str1, str2, str3) => {
 
   console.log("string interleaving DP", dp);
 };
-stringInterLeavingDP("XXYZ", "AACD", "AXXACYDZ");
+//stringInterLeavingDP("XXYZ", "AACD", "AXXACYDZ");
 
 const isStrPalindrom = (i, j, str) => {
   if (i === j) return true;
@@ -1069,7 +1069,7 @@ const palindromMinPartitionDP = str => {
   console.log("palindrom dp", dp);
 };
 
-palindromMinPartitionDP("abcbm");
+//palindromMinPartitionDP("abcbm");
 
 let pathMatrix = [
   [1, 2, 3],
@@ -1133,7 +1133,7 @@ const findLongagestPathInMatrix = mat => {
 
   return result;
 };
-console.log("result is", findLongagestPathInMatrix(pathMatrix));
+//console.log("result is", findLongagestPathInMatrix(pathMatrix));
 
 /// if dont want to use visited array in finding longest path
 //then DP cache array will be used....and return the each computed value with max
@@ -1146,7 +1146,7 @@ const isValidPath3 = (mat, i, j, row, col, dp) => {
   }
 };
 const dfspathMatrix3 = (mat, i, j, row, col, dp) => {
-  debugger;
+  //debugger;
   if (dp[i][j] !== -1) {
     return dp[i][j];
   }
@@ -1194,7 +1194,7 @@ const findLongagestPathInMatrix3 = mat => {
   let result = 1;
   for (let i = 0; i < row; i++) {
     for (let j = 0; j < col; j++) {
-      debugger;
+      //debugger;
       {
         if (dp[i][j] === -1) {
           let res = dfspathMatrix3(mat, i, j, row, col, dp);
@@ -1213,4 +1213,4 @@ let pathMatrix3 = [
   [7, 11, 13, 14],
   [14, 10, 5, 15]
 ];
-console.log("result is", findLongagestPathInMatrix3(pathMatrix3));
+//console.log("result is", findLongagestPathInMatrix3(pathMatrix3));
