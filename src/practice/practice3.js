@@ -370,18 +370,18 @@ const flattenArray = arr => {
 
   return result;
 };
-console.log(
-  "flatten array is",
-  flatteNRecursive([
-    1,
-    2,
-    3,
-    [4, 5, 6, [7, 8, 9, 10]],
-    11,
-    12,
-    [13, 14, [15, 16, [17]]]
-  ])
-);
+// console.log(
+//   "flatten array is",
+//   flatteNRecursive([
+//     1,
+//     2,
+//     3,
+//     [4, 5, 6, [7, 8, 9, 10]],
+//     11,
+//     12,
+//     [13, 14, [15, 16, [17]]]
+//   ])
+// );
 function add(a, b) {
   return a + b;
 }
@@ -477,7 +477,7 @@ const makeNumberPallindrom = num => {
     }
   }
 };
-console.log("palindrom is", makeNumberPallindrom(19999994));
+//console.log("palindrom is", makeNumberPallindrom(19999994));
 
 const isNumberFitInsudoku = (mat, i, j, num) => {
   debugger;
@@ -574,7 +574,7 @@ const ratMazeMutipleJump = mat => {
   solveRateMazeJump(mat, 0, 0, row, col, visited);
   console.log("rat jump matrix", visited);
 };
-ratMazeMutipleJump(maze);
+//ratMazeMutipleJump(maze);
 
 const arrangeNumberOfarrayToMakeBiggestNumber = arr => {
   if (arr === null || arr.length === 0) return 0;
@@ -600,7 +600,7 @@ const arrangeNumberOfarrayToMakeBiggestNumber = arr => {
 
   console.log(arr.join(""));
 };
-arrangeNumberOfarrayToMakeBiggestNumber([1, 34, 3, 98, 9, 76, 45, 4]);
+//arrangeNumberOfarrayToMakeBiggestNumber([1, 34, 3, 98, 9, 76, 45, 4]);
 function NodeBST(data) {
   this.data = data;
   this.left = null;
@@ -674,7 +674,7 @@ const alternateValueNodeLvelFullTreeOneTravesal = (nodeL, nodeR, level) => {
   alternateValueNodeLvelFullTreeOneTravesal(nodeL.right, nodeR.left, level + 1);
 };
 //alternateValueNodeLvelFullTreeOneTravesal(tree.root.left, tree.root.right, 0);
-console.log("modified tree", tree);
+//console.log("modified tree", tree);
 
 const countPossibleTraiangle = arr => {
   //start brute foce approcah
@@ -719,7 +719,7 @@ const countPossibleTraiangle = arr => {
   }
   console.log(counter);
 };
-countPossibleTraiangle([300, 21, 22, 100, 101, 200, 21]);
+//countPossibleTraiangle([300, 21, 22, 100, 101, 200, 21]);
 
 const sumOfmiddleElemntSortedArr = (arr1, arr2) => {
   if (
@@ -763,7 +763,284 @@ const sumOfmiddleElemntSortedArr = (arr1, arr2) => {
 
   console.log("result", m1, "m2", m2, "median is", (m1 + m2) / 2);
 };
+// console.log(
+//   "sum is",
+//   sumOfmiddleElemntSortedArr([1, 12, 15, 26, 38], [2, 13, 17, 30, 45])
+// );
+
+const wildCardPatternMatchingAlgo = (str, pattern, n, m) => {
+  if (n < 0 && m < 0) {
+    return true;
+  } else if (m < 0) {
+    return false;
+  }
+  if (n < 0) {
+    for (let i = 0; i < m; i++) {
+      if (pattern[i] !== "*") return false;
+    }
+    return true;
+  }
+
+  if (str[n - 1] === pattern[m - 1]) {
+    return wildCardPatternMatchingAlgo(str, pattern, n - 1, m - 1);
+  } else if (
+    str[n - 1] !== pattern[m - 1] &&
+    pattern[m - 1] !== "*" &&
+    pattern[m - 1] !== "?"
+  ) {
+    return false;
+  } else if (pattern[m - 1] === "*") {
+    return (
+      wildCardPatternMatchingAlgo(str, pattern, n, m - 1) ||
+      wildCardPatternMatchingAlgo(str, pattern, n - 1, m)
+    );
+  } else if (pattern[m - 1] === "?") {
+    return wildCardPatternMatchingAlgo(str, pattern, n - 1, m - 1);
+  }
+};
+let strWild = "baaabab";
+let pattern = "a*ab";
 console.log(
-  "sum is",
-  sumOfmiddleElemntSortedArr([1, 12, 15, 26, 38], [2, 13, 17, 30, 45])
+  "wild pattern match is",
+  wildCardPatternMatchingAlgo(strWild, pattern, strWild.length, pattern.length)
 );
+
+const longestPrefixWhichSufixAlso = str => {
+  if (str === null) return false;
+  let strLen = str.length;
+  let first = str.substring(0, strLen / 2);
+  let second = str.substring(strLen / 2);
+  console.log(first, " ", second);
+
+  let n = first.length;
+  let m = second.length;
+
+  let i = 0;
+  let j = 0;
+  let counter = 0;
+  while (i < n && j < m) {
+    if (first[i] === second[j]) {
+      counter++;
+      i++;
+      j++;
+    } else {
+      j++;
+      if (counter) {
+        break;
+      }
+    }
+  }
+  return counter;
+};
+
+console.log("longest prefix is ", longestPrefixWhichSufixAlso("aaa"));
+
+let subtree = new MakeBst();
+subtree.root = new NodeBST(3);
+subtree.root.left = new NodeBST(6);
+subtree.root.right = new NodeBST(7);
+subtree.root.right.left = new NodeBST(14);
+
+const checkEachNode = (t1, t2) => {
+  if (t1 === null || t2 === null) {
+    return true;
+  }
+
+  if (t1.data !== t2.data) {
+    return false;
+  }
+  if (
+    t1.data === t2.data &&
+    checkEachNode(t1.left, t2.left) &&
+    checkEachNode(t1.right, t2.right)
+  ) {
+    return true;
+  }
+  return false;
+};
+const checkIsSubTree = (t1, t2) => {
+  // console.log(t1, "", t2);
+  if (t1 === null) {
+    return null;
+  }
+
+  if (t1.data === t2.data) {
+    return console.log(checkEachNode(t1, t2));
+  }
+  checkIsSubTree(t1.left, t2);
+  checkIsSubTree(t1.right, t2);
+};
+
+console.log(checkIsSubTree(tree.root, subtree.root));
+
+// implemnt graph with adjancy list
+function Node(data) {
+  this.data = data;
+  this.next = null;
+}
+function Linkedlist() {
+  this.root = null;
+}
+function Graph(node) {
+  this.root = null;
+  this.graph = [];
+  for (let i = 1; i <= node; i++) {
+    this.graph[i] = new Linkedlist();
+  }
+}
+Graph.prototype.addEdge = function(index, b) {
+  let i = index;
+  if (this.graph[i].root === null) {
+    this.graph[i].root = new Node(b);
+  } else {
+    let node = this.graph[i].root;
+    while (node.next) {
+      node = node.next;
+    }
+    node.next = new Node(b);
+  }
+};
+
+const makeGraph = () => {
+  let graph = new Graph(7);
+  graph.addEdge(1, 3);
+  graph.addEdge(1, 2);
+  graph.addEdge(2, 4);
+  graph.addEdge(2, 1);
+  graph.addEdge(3, 1);
+  graph.addEdge(3, 4);
+  graph.addEdge(3, 5);
+  graph.addEdge(4, 2);
+  graph.addEdge(4, 3);
+  graph.addEdge(4, 6);
+  graph.addEdge(5, 3);
+  graph.addEdge(5, 7);
+  graph.addEdge(6, 4);
+  graph.addEdge(6, 7);
+  graph.addEdge(7, 6);
+  graph.addEdge(7, 5);
+
+  return graph;
+};
+makeGraph();
+
+const doDFS = (graph, node, visited) => {
+  let stack = [];
+  stack.push(node);
+  debugger;
+  while (stack.length > 0) {
+    let pop = stack.pop();
+
+    if (visited[pop]) {
+      continue;
+    }
+    console.log(pop);
+    visited[pop] = true;
+
+    // now here we get the linked list of at index node
+    let list = graph[pop].root;
+
+    while (list) {
+      let adjacentNode = list.data;
+
+      if (!visited[adjacentNode]) {
+        stack.push(adjacentNode);
+      }
+      list = list.next;
+    }
+  }
+};
+const DFSOfGraph = graphData => {
+  let graph = graphData.graph;
+  let nodes = graphData.graph.length;
+  // here will run dfs for each node////so that some disconnected node also covered
+  let visited = [];
+  for (let i = 1; i < nodes; i++) {
+    if (!visited[i]) {
+      doDFS(graph, i, visited);
+    }
+  }
+};
+
+//DFSOfGraph(makeGraph());
+
+let subtree1 = new MakeBst();
+subtree1.root = new NodeBST(5);
+subtree1.root.left = new NodeBST(-10);
+subtree1.root.left.left = new NodeBST(9);
+subtree1.root.left.right = new NodeBST(8);
+
+subtree1.root.right = new NodeBST(3);
+subtree1.root.right.left = new NodeBST(-4);
+subtree1.root.right.right = new NodeBST(7);
+let countIS = 0;
+const countSubTreeTogivenSum = (node, sum) => {
+  if (node.left === null && node.right === null) {
+    if (node.data === sum) {
+      countIS++;
+    }
+
+    return node;
+  }
+
+  let left = countSubTreeTogivenSum(node.left, sum);
+  let right = countSubTreeTogivenSum(node.right, sum);
+  let add = node.data + left.data + right.data;
+  if (add === sum) {
+    countIS++;
+  }
+  console.log(add);
+  return add;
+};
+console.log(
+  "countSubTreeTogivenSum is ",
+  countSubTreeTogivenSum(subtree1.root, 7)
+);
+console.log(countIS);
+
+const maxSumTwoNonOverlapingArray = (arr, L, M) => {
+  let arrLen = arr.length;
+  let sumFirstMax = -10;
+  let sum = 0;
+  let sumLastMax = -10;
+  let lastIndex = -1;
+  debugger;
+  for (let i = 0; i < arrLen; i++) {
+    if (i < L) {
+      sum += arr[i];
+    } else {
+      sum += arr[i] - arr[i - L];
+      if (sumFirstMax < sum) {
+        sumFirstMax = sum;
+        lastIndex = i;
+      }
+    }
+  }
+  sum = 0;
+  let currentIndx = 0;
+  for (let i = 0; i < arrLen; i++) {
+    if (i <= lastIndex && i > lastIndex - L) {
+      sum = 0;
+      currentIndx = 0;
+      continue;
+    }
+    if (currentIndx < M) {
+      currentIndx++;
+      sum += arr[i];
+    } else {
+      sum += arr[i] - arr[i - M];
+      if (sumLastMax < sum) {
+        sumLastMax = sum;
+      }
+    }
+  }
+  console.log("max sum is", sumLastMax + sumFirstMax, "sumLastMax", lastIndex);
+};
+console.log(
+  "max sum is",
+  maxSumTwoNonOverlapingArray([3, 8, 1, 3, 2, 1, 8, 9, 0], 3, 2)
+);
+// minimum ciculer rotations of lock to avoid blocked state
+let blockedState = ["1543", "7434", "7300", "7321", "2427"];
+const mimmRotationAvoidBlocked = (target, state) => {};
+mimmRotationAvoidBlocked("7531", blockedState);
