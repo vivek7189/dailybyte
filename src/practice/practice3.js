@@ -1,3 +1,5 @@
+import tune from "material-ui/svg-icons/image/tune";
+
 const isValidParenthesis = str => {
   if (str === null) return true;
 
@@ -480,7 +482,7 @@ const makeNumberPallindrom = num => {
 //console.log("palindrom is", makeNumberPallindrom(19999994));
 
 const isNumberFitInsudoku = (mat, i, j, num) => {
-  debugger;
+  //debugger;
   for (let row = 0; row < 9; row++) {
     if (mat[row][j] === num) return false;
   }
@@ -873,6 +875,19 @@ const checkIsSubTree = (t1, t2) => {
 
 console.log(checkIsSubTree(tree.root, subtree.root));
 
+const transformIntoSumTree = node => {
+  console.log(node);
+  if (node === null) return 0;
+
+  let left = transformIntoSumTree(node.left);
+  let right = transformIntoSumTree(node.right);
+  let data = node.data;
+  node.data = left + right;
+
+  return data + left + right;
+};
+//console.log("data node", transformIntoSumTree(tree.root), tree.root);
+
 // implemnt graph with adjancy list
 function Node(data) {
   this.data = data;
@@ -924,25 +939,19 @@ const makeGraph = () => {
 };
 makeGraph();
 
-const doDFS = (graph, node, visited) => {
+const doDFSIterative = (graph, node, visited) => {
   let stack = [];
   stack.push(node);
-  debugger;
   while (stack.length > 0) {
     let pop = stack.pop();
-
-    if (visited[pop]) {
-      continue;
+    if (!visited[pop]) {
+      console.log("dfs iterative", pop);
+      visited[pop] = true;
     }
-    console.log(pop);
-    visited[pop] = true;
-
     // now here we get the linked list of at index node
     let list = graph[pop].root;
-
     while (list) {
       let adjacentNode = list.data;
-
       if (!visited[adjacentNode]) {
         stack.push(adjacentNode);
       }
@@ -950,20 +959,129 @@ const doDFS = (graph, node, visited) => {
     }
   }
 };
+const doBFSIterative = (graph, node, visitedBFS, bsfQueue) => {
+  while (bsfQueue.length > 0) {
+    let pop = bsfQueue.shift();
+    console.log("bfs iterative", pop);
+    let list = graph[pop].root;
+    while (list) {
+      let adjacentNode = list.data;
+      if (!visitedBFS[adjacentNode]) {
+        bsfQueue.push(adjacentNode);
+        visitedBFS[adjacentNode] = true;
+      }
+      list = list.next;
+    }
+  }
+};
+const doDFSRecrisive = (graph, node, visited) => {
+  console.log("node dfs recrsive", node);
+  visited[node] = true;
+
+  let list = graph[node].root;
+  while (list) {
+    let adjacentNode = list.data;
+
+    if (!visited[adjacentNode]) {
+      doDFSRecrisive(graph, adjacentNode, visited);
+    }
+    list = list.next;
+  }
+};
+
+const doBFSRecrisive = (graph, node, visitedBFS, bsfQueue) => {
+  if (bsfQueue.length === 0) {
+    return;
+  }
+  let pop = bsfQueue.shift();
+  console.log("bfs recvrive", pop);
+
+  let list = graph[pop].root;
+  let adjacentNode;
+  while (list) {
+    adjacentNode = list.data;
+    if (!visitedBFS[adjacentNode]) {
+      bsfQueue.push(adjacentNode);
+      visitedBFS[adjacentNode] = true;
+    }
+    list = list.next;
+  }
+  doBFSRecrisive(graph, adjacentNode, visitedBFS, bsfQueue);
+};
+
 const DFSOfGraph = graphData => {
   let graph = graphData.graph;
   let nodes = graphData.graph.length;
   // here will run dfs for each node////so that some disconnected node also covered
-  let visited = [];
+  let visitedDFS = [];
+  // here below we doing dfs of graph
   for (let i = 1; i < nodes; i++) {
-    if (!visited[i]) {
-      doDFS(graph, i, visited);
+    if (!visitedDFS[i]) {
+      //doDFSIterative(graph, i, visited);
+      //doDFSRecrisive(graph, i, visitedDFS);
+    }
+  }
+  // here below we doing bfs of graph
+  // in bsf both approache we need a sepearte Queuq
+  let visitedBFS = [];
+  let bsfQueue = [];
+  for (let i = 1; i < nodes; i++) {
+    if (!visitedBFS[i]) {
+      bsfQueue.push(i);
+      visitedBFS[i] = true;
+      doBFSRecrisive(graph, i, visitedBFS, bsfQueue);
+      //doBFSIterative(graph, i, visitedBFS, bsfQueue);
     }
   }
 };
 
-//DFSOfGraph(makeGraph());
+DFSOfGraph(makeGraph());
 
+const topologicalSorting = (graph, node, visited, finalStore) => {
+  if (!visited[node]) {
+    visited[node] = true;
+  }
+  let list = graph[node] && graph[node].root;
+  while (list) {
+    let adjacentNode = list.data;
+
+    if (!visited[adjacentNode]) {
+      topologicalSorting(graph, adjacentNode, visited, finalStore);
+    }
+    list = list.next;
+  }
+  finalStore.push(node);
+};
+const topoLogicalSortingOfGraph = graphData => {
+  //console.log("topological graph", graph);
+  let graph = graphData.graph;
+  let nodes = graphData.graph.length;
+  //
+  let visited = [];
+  let stack = [];
+  // here below we doing dfs of graph
+  for (let i = 1; i < nodes; i++) {
+    if (!visited[i]) {
+      topologicalSorting(graph, i, visited, stack);
+    }
+  }
+
+  console.log("topological sorting is", stack);
+};
+const makeTopoLogiclGraph = () => {
+  let graph = new Graph(6);
+  graph.addEdge(5, 2);
+  graph.addEdge(5, 0);
+
+  graph.addEdge(4, 0);
+  graph.addEdge(4, 1);
+  graph.addEdge(2, 3);
+  graph.addEdge(1, 3);
+
+  return graph;
+};
+
+topoLogicalSortingOfGraph(makeTopoLogiclGraph());
 let subtree1 = new MakeBst();
 subtree1.root = new NodeBST(5);
 subtree1.root.left = new NodeBST(-10);
@@ -1004,7 +1122,7 @@ const maxSumTwoNonOverlapingArray = (arr, L, M) => {
   let sum = 0;
   let sumLastMax = -10;
   let lastIndex = -1;
-  debugger;
+  //debugger;
   for (let i = 0; i < arrLen; i++) {
     if (i < L) {
       sum += arr[i];
@@ -1044,3 +1162,285 @@ console.log(
 let blockedState = ["1543", "7434", "7300", "7321", "2427"];
 const mimmRotationAvoidBlocked = (target, state) => {};
 mimmRotationAvoidBlocked("7531", blockedState);
+
+const maxProductExceptSelf = arr => {
+  if (arr === null || arr.length === 0) return 0;
+  let prod = 1;
+  let arrLen = arr.length;
+
+  for (let i = 0; i < arrLen; i++) {
+    prod *= arr[i];
+  }
+  for (let i = 0; i < arrLen; i++) {
+    //debugger;
+    //console.log(prod * Math.pow(arr[i], -1));
+  }
+};
+maxProductExceptSelf([1, 2, 3, 4, 5]);
+
+const minimumOverlapIntewalRemove = arr => {
+  // make two arr from interval
+  let arrival = [];
+  let departure = [];
+  let row = arr.length;
+  let col = arr[0].length;
+  let res = [];
+  for (let i = 0; i < row; i++) {
+    for (let k = 0; k < col; k++) {
+      arrival.push(arr[i][0]);
+      departure.push(arr[1][k]);
+    }
+  }
+  console.log("arrival", arrival, "departure", departure);
+};
+// minimumOverlapIntewalRemove([
+//   [1, 2],
+//   [2, 3],
+//   [3, 4],
+//   [1, 3]
+// ]);
+
+let rottenGrid = [
+  [2, 1, 0, 2, 1],
+  [1, 0, 1, 2, 1],
+  [1, 0, 0, 2, 1],
+  [1, 0, 0, 2, 1]
+];
+const isRottenSafe = (mat, i, j, row, col) => {
+  if (i >= 0 && i < row && j >= 0 && j < col && mat[i][j] === 1) {
+    return true;
+  } else {
+    return false;
+  }
+};
+const rottenOrangeBFS = mat => {
+  if (mat === null || mat.length === 0 || mat[0].length === 0) return 0;
+
+  let row = mat.length;
+  let col = mat[0].length;
+  let queue = [];
+  // insert all rotten index into queue
+  for (let i = 0; i < row; i++) {
+    for (let j = 0; j < col; j++) {
+      if (mat[i][j] === 2) {
+        queue.push([i, j]);
+      }
+    }
+  }
+
+  // run a while loop until queue is empty
+  let rottenCount = 0;
+  while (queue.length > 0) {
+    let isAppear = false;
+    let size = queue.length;
+    while (size > 0) {
+      let pop = queue.shift();
+      // now pop's elemnt adjacent make rotten
+      let i = pop[0];
+      let j = pop[1];
+      //makeAdjacentRotten(mat, pop, rottenCount);
+      if (isRottenSafe(mat, i, j + 1, row, col)) {
+        mat[i][j + 1] = 2;
+        queue.push([i, j + 1]);
+        if (!isAppear) {
+          rottenCount++;
+          isAppear = true;
+        }
+      }
+      if (isRottenSafe(mat, i - 1, j, row, col)) {
+        mat[i - 1][j] = 2;
+        queue.push([i - 1, j]);
+        if (!isAppear) {
+          rottenCount++;
+          isAppear = true;
+        }
+      }
+      if (isRottenSafe(mat, i + 1, j, row, col)) {
+        mat[i + 1][j] = 2;
+        queue.push([i + 1, j]);
+        if (!isAppear) {
+          rottenCount++;
+          isAppear = true;
+        }
+      }
+      if (isRottenSafe(mat, i, j - 1, row, col)) {
+        mat[i][j - 1] = 2;
+        queue.push([i, j - 1]);
+        if (!isAppear) {
+          rottenCount++;
+          isAppear = true;
+        }
+      }
+      size--;
+    }
+  }
+
+  console.log(mat);
+  return rottenCount;
+};
+//console.log(rottenOrangeBFS(rottenGrid));
+
+let tree3 = new MakeBst();
+
+tree3.root = new NodeBST(1);
+tree3.root.left = new NodeBST(2);
+
+tree3.root.right = new NodeBST(3);
+tree3.root.left.left = new NodeBST(2);
+tree3.root.left.right = new NodeBST(4);
+tree3.root.right.left = new NodeBST(5);
+tree3.root.right.left.left = new NodeBST(6);
+const printNodeWhichDontHaveSiblings = node => {
+  // *** first approache start ***//
+  if (node === null) {
+    return null;
+  }
+  if (node.left === null && node.right === null) {
+    return node;
+  }
+
+  let left = printNodeWhichDontHaveSiblings(node.left);
+
+  let right = printNodeWhichDontHaveSiblings(node.right);
+
+  if (left === null && right !== null) {
+    console.log(node.right.data);
+  }
+  if (left !== null && right === null) {
+    console.log(node.left.data);
+  }
+  return left ? left : right;
+  // *** first approache end ***//
+  // *** second approache start ***//
+
+  //   if (node === null) {
+  //     return;
+  //   }
+
+  //   if (node.left === null && node.right !== null) {
+  //     console.log(node.right.data);
+  //   }
+  //   if (node.left !== null && node.right === null) {
+  //     console.log(node.left.data);
+  //   }
+  //   printNodeWhichDontHaveSiblings(node.left);
+  //   printNodeWhichDontHaveSiblings(node.right);
+  // *** second approache end ***//
+};
+//printNodeWhichDontHaveSiblings(tree3.root);
+
+let tree4 = new MakeBst();
+
+tree4.root = new NodeBST(0);
+// tree4.root.left = new NodeBST(6);
+// tree4.root.left.left = new NodeBST(2);
+// tree4.root.left.right = new NodeBST(8);
+// tree4.root.right = new NodeBST(20);
+// tree4.root.right.left = new NodeBST(15);
+// tree4.root.right.right = new NodeBST(25);
+// tree4.root.right.right.left = new NodeBST(23);
+let prev = -10;
+const validateBSTtree = node => {
+  debugger;
+  if (node !== null) {
+    if (!validateBSTtree(node.left)) {
+      return false;
+    }
+    if (node.data < prev) {
+      console.log("not a bst");
+      return false;
+    }
+    prev = node.data;
+    return validateBSTtree(node.right);
+  }
+  return true;
+};
+console.log("bst is ", validateBSTtree(tree4.root));
+const validateBSTtree2 = (node, left, right) => {
+  if (node === null) return true;
+  if (left !== null && left.data >= node.data) {
+    return false;
+  }
+  if (right !== null && right.data <= node.data) {
+    return false;
+  }
+  return (
+    validateBSTtree2(node.left, left, node) &&
+    validateBSTtree2(node.right, node, right)
+  );
+};
+console.log("bst second method ", validateBSTtree2(tree4.root, null, null));
+let maxSumMap = new Map();
+function maxvalue(arr, index, len, prev) {
+  if (index === len) {
+    return 0;
+  }
+  let key = index + "#" + prev;
+  if (!maxSumMap.get(key)) {
+    let exclude = maxvalue(arr, index + 1, len, prev);
+
+    let include = 0;
+    if (prev + 1 !== index) {
+      include = maxvalue(arr, index + 1, len, index) + arr[index];
+    }
+
+    maxSumMap.set(key, Math.max(include, exclude));
+  }
+  return maxSumMap.get(key);
+}
+
+console.log("max value is", maxvalue([], 0, 0, -10));
+
+function findMinInsorted(arr, start, end) {
+  if (start > end) {
+    return arr[0];
+  }
+  if (start === end) {
+    return arr[start];
+  }
+  let mid = Math.floor((start + end) / 2);
+  if (arr[mid] > arr[mid + 1]) {
+    return arr[mid + 1];
+  }
+  if (arr[mid] < arr[mid - 1]) {
+    return arr[mid];
+  }
+  if (arr[mid] > arr[start]) {
+    return findMinInsorted(arr, mid + 1, end);
+  } else {
+    return findMinInsorted(arr, start, mid - 1);
+  }
+}
+console.log("min elemnt is", findMinInsorted([4, 5, 6, 7, 8, 1], 0, 5));
+
+const findSumInsortedRotatedArray = (arr, sum, len) => {
+  if (arr === null) return false;
+
+  let pivot;
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] > arr[i + 1]) {
+      pivot = i;
+      break;
+    }
+  }
+  // here we declaring two pointers
+  let left = pivot + 1; // index of smallest elemnt in array
+  let right = pivot; // index of largest elemnt in array
+
+  while (left !== right) {
+    debugger;
+    if (arr[left] + arr[right] === sum) {
+      console.log("sum found at", arr[left], "and", arr[right]);
+      return;
+    }
+    // sum is more then move to lesser elemnt
+    if (arr[left] + arr[right] < sum) {
+      left = (left + 1) % len;
+    } else {
+      right = (len + right - 1) % len;
+    }
+  }
+  console.log("no sum found");
+};
+
+findSumInsortedRotatedArray([11, 15, 6, 8, 9, 10], 14, 6);
