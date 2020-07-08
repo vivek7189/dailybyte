@@ -2,7 +2,8 @@ import { isPlaceholder, thisExpression } from "@babel/types";
 import { AvFastForward } from "material-ui/svg-icons";
 import map from "material-ui/svg-icons/maps/map";
 import star from "material-ui/svg-icons/toggle/star";
-import "./practice3";
+// import "./practice3";
+import "./practice4";
 function NodeBST(data) {
   this.data = data;
   this.left = null;

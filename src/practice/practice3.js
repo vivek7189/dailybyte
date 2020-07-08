@@ -959,6 +959,19 @@ const doDFSIterative = (graph, node, visited) => {
     }
   }
 };
+const doDFSRecrisive = (graph, node, visited) => {
+  console.log("node dfs recrsive", node);
+  visited[node] = true;
+
+  let list = graph[node].root;
+  while (list) {
+    let adjacentNode = list.data;
+    if (!visited[adjacentNode]) {
+      doDFSRecrisive(graph, adjacentNode, visited);
+    }
+    list = list.next;
+  }
+};
 const doBFSIterative = (graph, node, visitedBFS, bsfQueue) => {
   while (bsfQueue.length > 0) {
     let pop = bsfQueue.shift();
@@ -972,20 +985,6 @@ const doBFSIterative = (graph, node, visitedBFS, bsfQueue) => {
       }
       list = list.next;
     }
-  }
-};
-const doDFSRecrisive = (graph, node, visited) => {
-  console.log("node dfs recrsive", node);
-  visited[node] = true;
-
-  let list = graph[node].root;
-  while (list) {
-    let adjacentNode = list.data;
-
-    if (!visited[adjacentNode]) {
-      doDFSRecrisive(graph, adjacentNode, visited);
-    }
-    list = list.next;
   }
 };
 
@@ -1018,7 +1017,7 @@ const DFSOfGraph = graphData => {
   for (let i = 1; i < nodes; i++) {
     if (!visitedDFS[i]) {
       //doDFSIterative(graph, i, visited);
-      //doDFSRecrisive(graph, i, visitedDFS);
+      doDFSRecrisive(graph, i, visitedDFS);
     }
   }
   // here below we doing bfs of graph
@@ -1029,7 +1028,7 @@ const DFSOfGraph = graphData => {
     if (!visitedBFS[i]) {
       bsfQueue.push(i);
       visitedBFS[i] = true;
-      doBFSRecrisive(graph, i, visitedBFS, bsfQueue);
+      //doBFSRecrisive(graph, i, visitedBFS, bsfQueue);
       //doBFSIterative(graph, i, visitedBFS, bsfQueue);
     }
   }
@@ -1341,7 +1340,7 @@ tree4.root = new NodeBST(0);
 // tree4.root.right.right.left = new NodeBST(23);
 let prev = -10;
 const validateBSTtree = node => {
-  debugger;
+  //debugger;
   if (node !== null) {
     if (!validateBSTtree(node.left)) {
       return false;
@@ -1428,7 +1427,7 @@ const findSumInsortedRotatedArray = (arr, sum, len) => {
   let right = pivot; // index of largest elemnt in array
 
   while (left !== right) {
-    debugger;
+    //debugger;
     if (arr[left] + arr[right] === sum) {
       console.log("sum found at", arr[left], "and", arr[right]);
       return;
@@ -1444,3 +1443,216 @@ const findSumInsortedRotatedArray = (arr, sum, len) => {
 };
 
 findSumInsortedRotatedArray([11, 15, 6, 8, 9, 10], 14, 6);
+
+const booleanMatrix = mat => {
+  if (mat === null || mat.length === 0 || mat[0].length === 0) return 0;
+
+  let row = mat.length;
+  let col = mat[0].length;
+  // let isRow = false;
+  let isRow = [];
+  let isCol = [];
+  for (let i = 0; i < row; i++) {
+    for (let j = 0; j < col; j++) {
+      if (mat[i][j] === 0) {
+        isRow[i] = 0;
+        isCol[j] = 0;
+      }
+    }
+  }
+
+  for (let i = 0; i < row; i++) {
+    for (let j = 0; j < col; j++) {
+      if (isRow[i] === 0 || isCol[j] === 0) {
+        mat[i][j] = 0;
+      }
+    }
+  }
+  return mat;
+};
+function inPlaceSolution(mat) {
+  if (mat === null || mat.length === 0 || mat[0].length === 0) return 0;
+  let row = mat.length;
+  let col = mat[0].length;
+  let isRow = false;
+  let isCol = false;
+
+  for (let i = 0; i < row; i++) {
+    for (let j = 0; j < col; j++) {
+      // debugger;
+      if (i === 0 && mat[i][j] === 0) {
+        isRow = true;
+      }
+      if (j === 0 && mat[i][j] === 0) {
+        isCol = true;
+      }
+      if (mat[i][j] === 0) {
+        mat[0][j] = 0;
+        mat[j][0] = 0;
+      }
+    }
+  }
+
+  for (let i = 1; i < row; i++) {
+    for (let j = 1; j < col; j++) {
+      if (mat[0][j] === 0 || mat[i][0] === 0) {
+        mat[i][j] = 0;
+      }
+    }
+  }
+
+  if (isRow) {
+    for (let i = 0; i < col; i++) {
+      mat[0][i] = 0;
+    }
+  }
+  if (isCol) {
+    for (let i = 0; i < row; i++) {
+      mat[i][0] = 0;
+    }
+  }
+
+  return mat;
+}
+let matrixBol = [
+  [1, 1, 1],
+  [1, 0, 1],
+  [1, 1, 1]
+];
+//console.log("boolean matrix is", booleanMatrix(matrixBol));
+
+console.log("boolean matrix is", inPlaceSolution(matrixBol));
+
+const makeGraphCyclic = () => {
+  let graph = new Graph(5);
+  graph.addEdge(1, 3);
+  graph.addEdge(1, 2);
+  graph.addEdge(2, 5);
+  graph.addEdge(3, 5);
+  graph.addEdge(3, 4);
+  graph.addEdge(5, 4);
+  graph.addEdge(3, 2);
+  //graph.addEdge(2, 1);
+
+  return graph;
+};
+const foundCycleRecusiveDFS = (graph, node, visited, stack) => {
+  if (stack[node]) return true;
+  if (visited[node]) return false;
+  visited[node] = true;
+  stack[node] = true;
+  let list = graph[node].root;
+  //console.log("cyclic data", node);
+  while (list) {
+    let data = list.data;
+    if (foundCycleRecusiveDFS(graph, data, visited, stack)) {
+      return true;
+    }
+    list = list.next;
+  }
+  stack[node] = false;
+  return false;
+};
+
+const foundCycleIterativeDFS = (graph, node, visited) => {
+  let stack = [];
+  stack.push(node);
+
+  while (stack.length > 0) {
+    let pop = stack.pop();
+
+    if (!visited[pop]) {
+      console.log("dfsdfsdfsdfsf", pop);
+      visited[pop] = true;
+    }
+    let list = graph[pop].root;
+    while (list) {
+      let data = list.data;
+      if (!visited[data]) {
+        stack.push(data);
+      }
+      list = list.next;
+    }
+  }
+};
+const detectCycleIngraph = graphData => {
+  console.log("graphData", graphData);
+
+  let nodes = graphData.graph.length;
+  let graph = graphData.graph;
+  let visited = [];
+  let stack = [];
+  //   for (let i = 1; i < nodes; i++) {
+  //     if (foundCycleRecusiveDFS(graph, i, visited, stack)) {
+  //       return true;
+  //     }
+  //   }
+  for (let i = 1; i < nodes; i++) {
+    if (foundCycleIterativeDFS(graph, i, visited, stack)) {
+      return true;
+    }
+  }
+  return false;
+};
+
+console.log("is graph have cycle", detectCycleIngraph(makeGraphCyclic()));
+
+let floodMatrix = [
+  [1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 0, 0],
+  [1, 0, 0, 1, 1, 0, 1, 1],
+  [1, 2, 2, 2, 2, 0, 1, 0],
+  [1, 1, 1, 2, 2, 0, 1, 0],
+  [1, 1, 1, 2, 2, 2, 2, 0],
+  [1, 1, 1, 1, 1, 2, 1, 1],
+  [1, 1, 1, 1, 1, 2, 2, 1]
+];
+const floodFill4dire = (mat, i, j, row, col, point) => {
+  //debugger;
+  if (i < 0 || i >= row || j < 0 || j >= col || mat[i][j] !== 2) {
+    return;
+  }
+  if (mat[i][j] === 2) {
+    mat[i][j] = 3;
+    floodFill4dire(mat, i, j + 1, row, col, point);
+    floodFill4dire(mat, i, j - 1, row, col, point);
+    floodFill4dire(mat, i + 1, j, row, col, point);
+    floodFill4dire(mat, i - 1, j, row, col, point);
+  }
+};
+const floodFillAlgorithm = (mat, i, j, newPoint) => {
+  debugger;
+  if (mat === null || mat.length === 0 || mat[0].length === 0) return false;
+
+  let row = mat.length;
+  let col = mat[0].length;
+
+  if (mat[i][j] === newPoint) {
+    return false;
+  }
+  floodFill4dire(mat, i, j, row, col, newPoint);
+  console.log("matrix after flood fill", mat);
+};
+floodFillAlgorithm(floodMatrix, 3, 4, 3);
+
+function mergedTwoTreeIntoThirdOne(t1, t2) {
+  if (t1 === null && t2 === null) {
+    return null;
+  }
+
+  if (t1 === null) {
+    return t2;
+  }
+  if (t2 === null) {
+    return t1;
+  }
+
+  let val = t1.val + t2.val;
+  let newNode = new TreeNode(val);
+
+  newNode.left = merged(t1.left, t2.left);
+
+  newNode.right = merged(t1.right, t2.right);
+
+  return newNode;
+}
