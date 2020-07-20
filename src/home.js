@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as Algo from "./algos";
-import "./practice/practice2";
+//import "./practice/practice2";
+// import "./practice3";
+//import "./practice4";
+import "./practice/practice5";
 const getDynamicPics = () => {
   return;
   return [1, 2, 4, 5, 6, 7, 8, 9, 4, 5, 6, 6, 7, 8, 8, 89, 2].map(
@@ -448,27 +451,6 @@ export default Home;
 // };
 // console.log("count is latest", rollDice(6, 3, 8, 0));
 // console.log("total count is", mapDice);
-
-// const maxProductArray = arr => {
-//   if (arr || arr.length === 0) {
-//     console.log("empty array");
-//   }
-//   const arrLEn = arr.length;
-//   let maxsofar = 1;
-//   let final = 0;
-//   for (let i = 0; i < arrLEn; i++) {
-//     if (arr[i]) {
-//       maxsofar = maxsofar * arr[i];
-//       if (final < maxsofar) {
-//         final = maxsofar;
-//       }
-//     } else {
-//       maxsofar = 1;
-//     }
-//   }
-//   console.log("final", final, maxsofar);
-// };
-// maxProductArray([1, -2, -3, 0, 7, -8, -2]);
 
 // // rain trapping water problem
 // const smallestPostive = arr => {

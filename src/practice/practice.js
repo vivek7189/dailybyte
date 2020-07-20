@@ -816,24 +816,24 @@
 //   miniCostOfStairCase([2, 5, 3, 1, 7, 3, 4])
 // );
 
-// const maximumSumSubarray = arr => {
-//   // kadane's algorithm
+const maximumSumSubarray = arr => {
+  // kadane's algorithm
 
-//   let current_sum = 0;
-//   let max_sum = 0;
-//   for (let i = 0; i < arr.length; i++) {
-//     //here basically we are looking for first postive sum
-//     current_sum = current_sum + arr[i];
-//     if (current_sum < 0) {
-//       current_sum = 0;
-//     }
-//     if (current_sum > max_sum) {
-//       max_sum = current_sum;
-//     }
-//   }
+  let current_sum = 0;
+  let max_sum = 0;
+  for (let i = 0; i < arr.length; i++) {
+    //here basically we are looking for first postive sum
+    current_sum = current_sum + arr[i];
+    if (current_sum < 0) {
+      current_sum = 0;
+    }
+    if (current_sum > max_sum) {
+      max_sum = current_sum;
+    }
+  }
 
-//   return max_sum;
-// };
+  return max_sum;
+};
 
 // console.log(
 //   "continue larset subaray sum",

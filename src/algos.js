@@ -144,16 +144,16 @@ import "./practice/practice";
 // // };
 // // console.log("LCA is:", findLowstLCA(tree.root, 7, 8));
 
-// // console.log("leftNode", leftNode, "rightNode", rightnode);
-// // const minJumpToReachEnd = (arr, path) => {
-// //   if (path === 0) {
-// //     console.log("solution found");
-// //     return;
-// //   }
-// //   for (let i = 0; i <= path; i++) {
-// //     minJumpToReachEnd(arr, path - arr[i]);
-// //   }
-// // };
+//console.log("leftNode", leftNode, "rightNode", rightnode);
+const minJumpToReachEnd = (arr, path) => {
+  if (path === 0) {
+    console.log("solution found");
+    return;
+  }
+  for (let i = 0; i <= path; i++) {
+    minJumpToReachEnd(arr, path - arr[i]);
+  }
+};
 // // //minJumpToReachEnd([1, 3, 2, 0, 2], 4);
 
 // // // calcaulate median of two sorted arraysconst isArray
