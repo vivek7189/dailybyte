@@ -388,51 +388,55 @@ const minJumpToReachEnd = (arr, path) => {
 // // console.log("quicksort arr is :", quicksort(arrQu, 0, arrQu.length - 1));
 // // console.log("final arr is", arrQu);
 
-// // // word break problem
-// // let dictionary = [
-// //   "i",
-// //   "like",
-// //   "sam",
-// //   "sung",
-// //   "samsung",
-// //   "mobile",
-// //   "ice",
-// //   "cream",
-// //   "icecream",
-// //   "man",
-// //   "go",
-// //   "mango"
-// // ];
-// // let sent = "ilikemangosamsunglike";
-// // let counterrrr = 0;
-// // let wordMap = new Map();
+// word break problem
+let dictionary = [
+  "i",
+  "like",
+  "sam",
+  "sung",
+  "samsung",
+  "mobile",
+  "ice",
+  "cream",
+  "icecream",
+  "man",
+  "go",
+  "mango"
+];
+let sent = "ilike";
+let counterrrr = 0;
+let wordMap = new Map();
 
-// // const wordBreakProblem = (word, dict) => {
-// //   console.log("count is", ++counterrrr);
-// //   let sen = word.length;
-// //   let str = word;
-// //   if (word.length === 0) {
-// //     return true;
-// //   }
-// //   for (let i = 0; i < sen; i++) {
-// //     let subStrin = str.substring(0, i + 1);
-// //     if (wordMap.get(str.substring(i + 1))) {
-// //       return true;
-// //     }
-// //     if (
-// //       dict.indexOf(subStrin) > -1 &&
-// //       wordBreakProblem(str.substring(i + 1), dict)
-// //     ) {
-// //       wordMap.set(subStrin, true);
-// //       // console.log("count is", ++counterrrr);
-// //       console.log("index found at this location", i, "and", subStrin);
-// //       return true;
-// //     }
-// //     //console.log(subStrin);
-// //   }
-// //   return false;
-// // };
-// // console.log("word break problem", wordBreakProblem(sent, dictionary), wordMap);
+const wordBreakProblem = (word, dict) => {
+  // console.log("count is", ++counterrrr);
+  let sen = word.length;
+  let str = word;
+  if (word.length === 0) {
+    return true;
+  }
+  for (let i = 0; i < sen; i++) {
+    let subStrin = str.substring(0, i + 1);
+    if (wordMap.get(str.substring(i + 1))) {
+      return true;
+    }
+    if (
+      dict.indexOf(subStrin) > -1 &&
+      wordBreakProblem(str.substring(i + 1), dict)
+    ) {
+      wordMap.set(subStrin, true);
+      // console.log("count is", ++counterrrr);
+      //console.log("index found at this location", i, "and", subStrin);
+      return true;
+    }
+    //console.log(subStrin);
+  }
+  return false;
+};
+// console.log(
+//   "word break problem df",
+//   wordBreakProblem(sent, dictionary),
+//   wordMap
+// );
 
 // // // make a timer
 // // const addTimer = () => {
@@ -507,31 +511,31 @@ const minJumpToReachEnd = (arr, path) => {
 
 // // /// make 2d matrix of string
 
-// // const wordbreakDP = (str, dict) => {
-// //   // create a matrix of str * str length
-// //   let dpTable = [];
-// //   if (!str) {
-// //     return false;
-// //   }
-// //   let strLen = str.length;
-// //   for (let i = 0; i < strLen; i++) {
-// //     dpTable[i] = [];
-// //     for (let j = 0; j < strLen; j++) {
-// //       dpTable[i][j] = 0;
-// //     }
-// //   }
+const wordbreakDP = (str, dict) => {
+  // create a matrix of str * str length
+  let dpTable = [];
+  if (!str) {
+    return false;
+  }
+  let strLen = str.length;
+  for (let i = 0; i < strLen; i++) {
+    dpTable[i] = [];
+    for (let j = 0; j < strLen; j++) {
+      dpTable[i][j] = 0;
+    }
+  }
 
-// //   for (let i = 0; i < strLen; i++) {
-// //     for (let j = i + 1; j < strLen; j++) {
-// //       if (dict.indexOf(str.substring(i, j)) > -1) {
-// //         console.log("str.substring(i, j)", str.substring(i, j));
-// //         dpTable[i][j - 1] = "T";
-// //       }
-// //     }
-// //   }
+  for (let i = 0; i < strLen; i++) {
+    for (let j = i + 1; j < strLen; j++) {
+      if (dict.indexOf(str.substring(i, j)) > -1) {
+        console.log("str.substring(i, j)", str.substring(i, j));
+        dpTable[i][j - 1] = "T";
+      }
+    }
+  }
 
-// //   console.log("here our dptable", dpTable);
-// // };
+  console.log("here our dptable", dpTable);
+};
 // // wordbreakDP("ilikesamsung", dictionary);
 
 // // const mergeTwoSortedArr = (arr1, arr2) => {

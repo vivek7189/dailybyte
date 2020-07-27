@@ -2,22 +2,22 @@
 // function Linkedlist(data) {
 //   this.root = new Node1(data);
 // }
-// const longestIncreasingSubRecursive = (arr, n, prev) => {
-//   //console.log("inside practice test");
+const longestIncreasingSubRecursive = (arr, n, prev) => {
+  //console.log("inside practice test");
 
-//   if (n === arr.length) {
-//     return 0;
-//   }
-//   //  first try to inculde the number
-//   let include = 0;
-//   if (prev < arr[n]) {
-//     prev = arr[n];
-//     include = 1 + longestIncreasingSubRecursive(arr, n + 1, prev);
-//   }
-//   let exclude = longestIncreasingSubRecursive(arr, n + 1, prev);
+  if (n === arr.length) {
+    return 0;
+  }
+  //  first try to inculde the number
+  let include = 0;
+  if (prev < arr[n]) {
+    prev = arr[n];
+    include = 1 + longestIncreasingSubRecursive(arr, n + 1, prev);
+  }
+  let exclude = longestIncreasingSubRecursive(arr, n + 1, prev);
 
-//   return Math.max(include, exclude);
-// };
+  return Math.max(include, exclude);
+};
 // console.log(
 //   "longest incresing subsequence",
 //   longestIncreasingSubRecursive([50, 3, 10, 7, 40, 80], 0, -1)
@@ -221,28 +221,26 @@
 //   firstOccurenceSortedElement([1, 2, 3, 3, 3, 3, 3, 4, 4, 4], 0, 10, 3)
 // );
 // let midiid = 0;
-// const findcosestElement = (arr, low, high, key) => {
-//   if (low <= high) {
-//     let mid = Math.floor((low + high) / 2);
-//     midiid = `${low},'-',${high}`;
-//     console.log("midiid", midiid);
-//     if (arr[mid] === key || (arr[mid - 1] < key && arr[mid + 1] > key)) {
-//       if (key - arr[mid - 1] > arr[mid + 1] - key) {
-//         return mid + 1;
-//       } else if (key - arr[mid - 1] < arr[mid + 1] - key) {
-//         return mid - 1;
-//       }
-//       console.log("find elem33", mid);
+const findcosestElement = (arr, low, high, key) => {
+  if (low <= high) {
+    let mid = Math.floor((low + high) / 2);
+    if (arr[mid] === key || (arr[mid - 1] < key && arr[mid + 1] > key)) {
+      if (key - arr[mid - 1] > arr[mid + 1] - key) {
+        return mid + 1;
+      } else if (key - arr[mid - 1] < arr[mid + 1] - key) {
+        return mid - 1;
+      }
+      console.log("find elem33", mid);
 
-//       return mid;
-//     } else if (arr[mid] < key) {
-//       return findcosestElement(arr, mid + 1, high, key);
-//     } else {
-//       return findcosestElement(arr, low, mid - 1, key);
-//     }
-//   }
-//   return -1;
-// };
+      return mid;
+    } else if (arr[mid] < key) {
+      return findcosestElement(arr, mid + 1, high, key);
+    } else {
+      return findcosestElement(arr, low, mid - 1, key);
+    }
+  }
+  return -1;
+};
 // console.log(
 //   " 56564564564",
 //   findcosestElement([1, 4, 7, 10, 13, 15, 18, 19, 23, 27, 29], 0, 10, 26),
@@ -252,19 +250,19 @@
 
 // // find only missing number with xor
 
-// const findMissingNumberXor = arr => {
-//   let xor1 = arr[0];
-//   let xor2 = 1;
-//   for (let i = 1; i < arr.length; i++) {
-//     xor1 = xor1 ^ arr[i];
-//   }
-//   for (let i = 2; i < 11; i++) {
-//     xor2 = xor2 ^ i;
-//   }
-//   let final = xor1 ^ xor2;
-//   console.log("final mssing element is", final);
-// };
-// //findMissingNumberXor([1, 2, 7, 4, 9, 6, 3, 5, 10]);
+const findMissingNumberXor = arr => {
+  let xor1 = arr[0];
+  let xor2 = 1;
+  for (let i = 1; i < arr.length; i++) {
+    xor1 = xor1 ^ arr[i];
+  }
+  for (let i = 2; i < 11; i++) {
+    xor2 = xor2 ^ i;
+  }
+  let final = xor1 ^ xor2;
+  console.log("final mssing element is", final);
+};
+//findMissingNumberXor([1, 2, 7, 4, 9, 6, 3, 5, 10]);
 
 // const makeDigitPlace = (number, d) => {
 //   let num = number.toString();
@@ -674,23 +672,23 @@
 
 // maxProfitInKtransection([2, 5, 7, 1, 4, 3, 1, 3], 3);
 
-// const miniumuEditDistanceProblem = (str1, str2, n, m) => {
-//   if (n === 0) {
-//     return m;
-//   }
-//   if (m === 0) {
-//     return n;
-//   }
+const miniumuEditDistanceProblem = (str1, str2, n, m) => {
+  if (n === 0) {
+    return m;
+  }
+  if (m === 0) {
+    return n;
+  }
 
-//   if (str1[n - 1] === str2[m - 1]) {
-//     return miniumuEditDistanceProblem(str1, str2, n - 1, m - 1);
-//   } else {
-//     let insert = miniumuEditDistanceProblem(str1, str2, n, m - 1);
-//     let deletes = miniumuEditDistanceProblem(str1, str2, n - 1, m);
-//     let replaces = miniumuEditDistanceProblem(str1, str2, n - 1, m - 1);
-//     return 1 + Math.min(insert, deletes, replaces);
-//   }
-// };
+  if (str1[n - 1] === str2[m - 1]) {
+    return miniumuEditDistanceProblem(str1, str2, n - 1, m - 1);
+  } else {
+    let insert = miniumuEditDistanceProblem(str1, str2, n, m - 1);
+    let deletes = miniumuEditDistanceProblem(str1, str2, n - 1, m);
+    let replaces = miniumuEditDistanceProblem(str1, str2, n - 1, m - 1);
+    return 1 + Math.min(insert, deletes, replaces);
+  }
+};
 
 // console.log(
 //   "minimum edit distance is ",
@@ -816,28 +814,28 @@
 //   miniCostOfStairCase([2, 5, 3, 1, 7, 3, 4])
 // );
 
-const maximumSumSubarray = arr => {
-  // kadane's algorithm
-
-  let current_sum = 0;
-  let max_sum = 0;
-  for (let i = 0; i < arr.length; i++) {
-    //here basically we are looking for first postive sum
-    current_sum = current_sum + arr[i];
-    if (current_sum < 0) {
-      current_sum = 0;
-    }
-    if (current_sum > max_sum) {
-      max_sum = current_sum;
-    }
+var maxSubArray = function(nums) {
+  if (nums === null || nums.length === 1) {
+    return nums;
   }
+  let len = nums.length;
+  let maxSum = Number.MIN_SAFE_INTEGER;
+  let curSum = 0;
 
-  return max_sum;
+  for (let i = 0; i < len; i++) {
+    if (curSum < 0) {
+      curSum = 0;
+    }
+
+    curSum = curSum + nums[i];
+    maxSum = Math.max(maxSum, curSum);
+  }
+  return maxSum;
 };
 
 // console.log(
 //   "continue larset subaray sum",
-//   maximumSumSubarray([2, 0, 4, -1, -2, 1, 5, -3])
+//   kadan([2, 0, 4, -1, -2, 1, 5, -3])
 // );
 
 // // longest alternatig sub array of postive and negative element based on kadaen algorithm

@@ -1234,7 +1234,6 @@ const rottenOrangeBFS = mat => {
     let size = queue.length;
     while (size > 0) {
       let pop = queue.shift();
-      // now pop's elemnt adjacent make rotten
       let i = pop[0];
       let j = pop[1];
       //makeAdjacentRotten(mat, pop, rottenCount);

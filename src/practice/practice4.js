@@ -827,18 +827,18 @@ const letterCombinationIntreeIterativeapprocahe = arr => {
   let map = ["", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"];
   let arrLen = arr.length;
   // initial push empty string
-  let res = [""];
+  let queue = [""];
   let result = [];
   // while queue not empty
-  while (res.length) {
-    let pop = res.shift();
-    // if length of genearte string is arra length
+  while (queue.length) {
+    let pop = queue.shift();
+    // if length of genearte string is array length
     if (pop.length === arrLen) {
       result.push(pop);
     } else {
       let digit = arr[pop.length];
       for (let i = 0; i < map[digit].length; i++) {
-        res.push(pop + map[digit][i]);
+        queue.push(pop + map[digit][i]);
       }
     }
   }

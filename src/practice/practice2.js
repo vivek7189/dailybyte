@@ -253,23 +253,6 @@ const maxAraeaHistogram = arr => {
 };
 //maxAraeaHistogram([1, 2, 4]);
 
-// smallest positive numnber missing from array in o(n)
-
-const smallestPositiveNumberMissing = arr => {
-  for (let i = 0; i < arr.length; i++) {
-    // here we first try to store the value
-
-    while (arr[i] > 0 && arr[i] < arr.length && arr[i] !== arr[arr[i]]) {
-      let temp = arr[arr[i]];
-      arr[arr[i]] = -arr[i];
-      arr[i] = temp;
-    }
-  }
-  console.log("indexed array is", arr);
-};
-
-//smallestPositiveNumberMissing([1, 1, 1, 0, -1, -2]);
-
 const matrix = [
   [0, 1, 1, 0, 1],
   [1, 1, 0, 1, 0],
@@ -1181,7 +1164,7 @@ const dfspathMatrix3 = (mat, i, j, row, col, dp) => {
   return dp[i][j];
 };
 
-const findLongagestPathInMatrix3 = mat => {
+const findLongegestPathInMatrix3 = mat => {
   if (mat === null || mat.length === 0) return 0;
   let dp = [
     [-1, -1, -1, -1],
@@ -1213,4 +1196,4 @@ let pathMatrix3 = [
   [7, 11, 13, 14],
   [14, 10, 5, 15]
 ];
-//console.log("result is", findLongagestPathInMatrix3(pathMatrix3));
+//console.log("result is", findLongegestPathInMatrix3(pathMatrix3));

@@ -4,7 +4,8 @@ import * as Algo from "./algos";
 //import "./practice/practice2";
 // import "./practice3";
 //import "./practice4";
-import "./practice/practice5";
+//import "./practice/practice5";
+import "./practice/practice6";
 const getDynamicPics = () => {
   return;
   return [1, 2, 4, 5, 6, 7, 8, 9, 4, 5, 6, 6, 7, 8, 8, 89, 2].map(
